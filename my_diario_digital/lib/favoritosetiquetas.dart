@@ -1,235 +1,219 @@
-// Clase principal para gestionar favoritos y etiquetas
-    public class FavoritosEtiquetas
-    {
-        private readonly List<Entrada> entradasFavoritas;
-        private readonly Dictionary<int, List<string>> etiquetasPorEntrada;
-        private readonly DatabaseContext dbContext;
+import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
-        public FavoritosEtiquetas()
-        {
-            entradasFavoritas = new List<Entrada>();
-            etiquetasPorEntrada = new Dictionary<int, List<string>>();
-            dbContext = new DatabaseContext();
-        }
+void main() {
+  runApp(MyApp());
+}
 
-        public void MarcarFavorito(int idEntrada)
-        {
-            try
-            {
-                var entrada = dbContext.Entradas.Find(idEntrada);
-                if (entrada != null)
-                {
-                    entrada.EsFavorito = !entrada.EsFavorito;
-                    dbContext.SaveChanges();
-                    
-                    if (entrada.EsFavorito)
-                        entradasFavoritas.Add(entrada);
-                    else
-                        entradasFavoritas.RemoveAll(e => e.Id == idEntrada);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al marcar favorito: {ex.Message}", "Error", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Gestor de Favoritos y Etiquetas',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: FavoritosEtiquetasScreen(),
+    );
+  }
+}
 
-        public List<Entrada> VerFavoritos()
-        {
-            try
-            {
-                return dbContext.Entradas
-                    .Where(e => e.EsFavorito)
-                    .OrderByDescending(e => e.FechaCreacion)
-                    .ToList();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al obtener favoritos: {ex.Message}", "Error", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return new List<Entrada>();
-            }
-        }
+// Modelo para una entrada
+class Entrada {
+  final int id;
+  final String titulo;
+  final String contenido;
+  final DateTime fechaCreacion;
+  bool esFavorito;
+  List<String> etiquetas;
 
-        public void AgregarEtiqueta(int idEntrada, string etiqueta)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(etiqueta))
-                    throw new ArgumentException("La etiqueta no puede estar vacía");
+  Entrada({
+    required this.id,
+    required this.titulo,
+    required this.contenido,
+    required this.fechaCreacion,
+    this.esFavorito = false,
+    this.etiquetas = const [],
+  });
+}
 
-                var entrada = dbContext.Entradas.Find(idEntrada);
-                if (entrada != null)
-                {
-                    var nuevaEtiqueta = new Etiqueta
-                    {
-                        EntradaId = idEntrada,
-                        Nombre = etiqueta.Trim().ToLower(),
-                        FechaCreacion = DateTime.Now
-                    };
+// Controlador para gestionar favoritos y etiquetas
+class FavoritosEtiquetasController {
+  late Database _db;
 
-                    dbContext.Etiquetas.Add(nuevaEtiqueta);
-                    dbContext.SaveChanges();
+  Future<void> inicializarDB() async {
+    String path = join(await getDatabasesPath(), 'favoritos_etiquetas.db');
 
-                    // Actualizar el diccionario local
-                    if (!etiquetasPorEntrada.ContainsKey(idEntrada))
-                        etiquetasPorEntrada[idEntrada] = new List<string>();
-                    
-                    etiquetasPorEntrada[idEntrada].Add(etiqueta);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al agregar etiqueta: {ex.Message}", "Error", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+    _db = await openDatabase(
+      path,
+      onCreate: (db, version) {
+        db.execute(
+            '''CREATE TABLE entradas (id INTEGER PRIMARY KEY, titulo TEXT, contenido TEXT, fechaCreacion TEXT, esFavorito INTEGER)''');
+        db.execute(
+            '''CREATE TABLE etiquetas (id INTEGER PRIMARY KEY, entradaId INTEGER, nombre TEXT, FOREIGN KEY (entradaId) REFERENCES entradas (id))''');
+      },
+      version: 1,
+    );
+  }
 
-        public List<Entrada> BuscarPorEtiqueta(string etiqueta)
-        {
-            try
-            {
-                return dbContext.Entradas
-                    .Where(e => e.Etiquetas.Any(et => et.Nombre == etiqueta.ToLower()))
-                    .OrderByDescending(e => e.FechaCreacion)
-                    .ToList();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al buscar por etiqueta: {ex.Message}", "Error", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return new List<Entrada>();
-            }
-        }
+  Future<void> agregarEntrada(Entrada entrada) async {
+    await _db.insert('entradas', {
+      'id': entrada.id,
+      'titulo': entrada.titulo,
+      'contenido': entrada.contenido,
+      'fechaCreacion': entrada.fechaCreacion.toIso8601String(),
+      'esFavorito': entrada.esFavorito ? 1 : 0,
+    });
+  }
+
+  Future<List<Entrada>> obtenerFavoritos() async {
+    final data = await _db.query(
+      'entradas',
+      where: 'esFavorito = ?',
+      whereArgs: [1],
+      orderBy: 'fechaCreacion DESC',
+    );
+
+    return data
+        .map((e) => Entrada(
+              id: e['id'] as int,
+              titulo: e['titulo'] as String,
+              contenido: e['contenido'] as String,
+              fechaCreacion: DateTime.parse(e['fechaCreacion'] as String),
+              esFavorito: (e['esFavorito'] as int) == 1,
+            ))
+        .toList();
+  }
+
+  Future<void> marcarFavorito(int idEntrada) async {
+    final entrada = await _db.query(
+      'entradas',
+      where: 'id = ?',
+      whereArgs: [idEntrada],
+    );
+
+    if (entrada.isNotEmpty) {
+      final esFavorito = (entrada.first['esFavorito'] as int) == 1;
+      await _db.update(
+        'entradas',
+        {'esFavorito': esFavorito ? 0 : 1},
+        where: 'id = ?',
+        whereArgs: [idEntrada],
+      );
     }
+  }
 
-   
+  Future<void> agregarEtiqueta(int idEntrada, String etiqueta) async {
+    await _db.insert('etiquetas', {
+      'entradaId': idEntrada,
+      'nombre': etiqueta.trim().toLowerCase(),
+    });
+  }
 
- // Clase para representar una entrada en el diario
-    public class Entrada
-    {
-        public int Id { get; set; }
-        public string Titulo { get; set; }
-        public string Contenido { get; set; }
-        public DateTime FechaCreacion { get; set; }
-        public bool EsFavorito { get; set; }
-        public virtual ICollection<Etiqueta> Etiquetas { get; set; }
-    }
+  Future<List<Entrada>> buscarPorEtiqueta(String etiqueta) async {
+    final data = await _db.rawQuery(
+        '''SELECT e.* FROM entradas e INNER JOIN etiquetas t ON e.id = t.entradaId WHERE t.nombre = ?''',
+        [etiqueta.toLowerCase()]);
 
-    // Clase para representar una etiqueta
-    public class Etiqueta
-    {
-        public int Id { get; set; }
-        public int EntradaId { get; set; }
-        public string Nombre { get; set; }
-        public DateTime FechaCreacion { get; set; }
-        public virtual Entrada Entrada { get; set; }
-    }
+    return data
+        .map((e) => Entrada(
+              id: e['id'] as int,
+              titulo: e['titulo'] as String,
+              contenido: e['contenido'] as String,
+              fechaCreacion: DateTime.parse(e['fechaCreacion'] as String),
+              esFavorito: (e['esFavorito'] as int) == 1,
+            ))
+        .toList();
+  }
+}
 
-    // Clase para el contexto de la base de datos
-    public class DatabaseContext : DbContext
-    {
-        public DbSet<Entrada> Entradas { get; set; }
-        public DbSet<Etiqueta> Etiquetas { get; set; }
+// Pantalla principal
+class FavoritosEtiquetasScreen extends StatefulWidget {
+  @override
+  _FavoritosEtiquetasScreenState createState() =>
+      _FavoritosEtiquetasScreenState();
+}
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Entrada>()
-                .HasMany(e => e.Etiquetas)
-                .WithOne(t => t.Entrada)
-                .HasForeignKey(t => t.EntradaId);
-        }
-    }
+class _FavoritosEtiquetasScreenState extends State<FavoritosEtiquetasScreen> {
+  final FavoritosEtiquetasController _controller =
+      FavoritosEtiquetasController();
+  List<Entrada> _favoritos = [];
+  final TextEditingController _etiquetaController = TextEditingController();
 
-    // Formulario Windows Forms para la interfaz de usuario
-    public partial class FormFavoritosEtiquetas : Form
-    {
-        private readonly FavoritosEtiquetas favoritosEtiquetas;
-        private readonly ListView listViewEntradas;
-        private readonly TextBox txtEtiqueta;
-        private readonly Button btnAgregarEtiqueta;
-        private readonly Button btnBuscarEtiqueta;
+  @override
+  void initState() {
+    super.initState();
+    _controller.inicializarDB().then((_) => _cargarFavoritos());
+  }
 
-        public FormFavoritosEtiquetas()
-        {
-            InitializeComponent();
-            favoritosEtiquetas = new FavoritosEtiquetas();
+  Future<void> _cargarFavoritos() async {
+    final favoritos = await _controller.obtenerFavoritos();
+    setState(() {
+      _favoritos = favoritos;
+    });
+  }
 
-            // Configuración del ListView
-            listViewEntradas = new ListView
-            {
-                Dock = DockStyle.Fill,
-                View = View.Details,
-                FullRowSelect = true,
-                GridLines = true
-            };
-            listViewEntradas.Columns.Add("Título", 200);
-            listViewEntradas.Columns.Add("Fecha", 100);
-            listViewEntradas.Columns.Add("Etiquetas", 200);
+  Future<void> _marcarFavorito(int id) async {
+    await _controller.marcarFavorito(id);
+    _cargarFavoritos();
+  }
 
-            // Configuración de controles
-            txtEtiqueta = new TextBox { Width = 150 };
-            btnAgregarEtiqueta = new Button { Text = "Agregar Etiqueta" };
-            btnBuscarEtiqueta = new Button { Text = "Buscar por Etiqueta" };
+  Future<void> _buscarPorEtiqueta() async {
+    final etiqueta = _etiquetaController.text.trim();
+    if (etiqueta.isEmpty) return;
 
-            // Eventos
-            btnAgregarEtiqueta.Click += BtnAgregarEtiqueta_Click;
-            btnBuscarEtiqueta.Click += BtnBuscarEtiqueta_Click;
-            listViewEntradas.DoubleClick += ListViewEntradas_DoubleClick;
+    final filtrados = await _controller.buscarPorEtiqueta(etiqueta);
+    setState(() {
+      _favoritos = filtrados;
+    });
+  }
 
-            // Cargar favoritos iniciales
-            CargarFavoritos();
-        }
-
-        private void CargarFavoritos()
-        {
-            listViewEntradas.Items.Clear();
-            var favoritos = favoritosEtiquetas.VerFavoritos();
-
-            foreach (var entrada in favoritos)
-            {
-                var item = new ListViewItem(entrada.Titulo);
-                item.SubItems.Add(entrada.FechaCreacion.ToShortDateString());
-                item.SubItems.Add(string.Join(", ", entrada.Etiquetas.Select(e => e.Nombre)));
-                item.Tag = entrada.Id;
-                listViewEntradas.Items.Add(item);
-            }
-        }
-
-        private void BtnAgregarEtiqueta_Click(object sender, EventArgs e)
-        {
-            if (listViewEntradas.SelectedItems.Count > 0)
-            {
-                var idEntrada = (int)listViewEntradas.SelectedItems[0].Tag;
-                favoritosEtiquetas.AgregarEtiqueta(idEntrada, txtEtiqueta.Text);
-                CargarFavoritos();
-            }
-        }
-
-        private void BtnBuscarEtiqueta_Click(object sender, EventArgs e)
-        {
-            listViewEntradas.Items.Clear();
-            var entradasFiltradas = favoritosEtiquetas.BuscarPorEtiqueta(txtEtiqueta.Text);
-
-            foreach (var entrada in entradasFiltradas)
-            {
-                var item = new ListViewItem(entrada.Titulo);
-                item.SubItems.Add(entrada.FechaCreacion.ToShortDateString());
-                item.SubItems.Add(string.Join(", ", entrada.Etiquetas.Select(e => e.Nombre)));
-                item.Tag = entrada.Id;
-                listViewEntradas.Items.Add(item);
-            }
-        }
-
-        private void ListViewEntradas_DoubleClick(object sender, EventArgs e)
-        {
-            if (listViewEntradas.SelectedItems.Count > 0)
-            {
-                var idEntrada = (int)listViewEntradas.SelectedItems[0].Tag;
-                favoritosEtiquetas.MarcarFavorito(idEntrada);
-                CargarFavoritos();
-            }
-        }
-    }
-
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Favoritos y Etiquetas')),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _etiquetaController,
+                    decoration: InputDecoration(labelText: 'Buscar etiqueta'),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: _buscarPorEtiqueta,
+                  child: Text('Buscar'),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _favoritos.length,
+              itemBuilder: (context, index) {
+                final entrada = _favoritos[index];
+                return ListTile(
+                  title: Text(entrada.titulo),
+                  subtitle: Text(entrada.fechaCreacion.toIso8601String()),
+                  trailing: IconButton(
+                    icon: Icon(
+                      entrada.esFavorito
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: entrada.esFavorito ? Colors.red : Colors.grey,
+                    ),
+                    onPressed: () => _marcarFavorito(entrada.id),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
