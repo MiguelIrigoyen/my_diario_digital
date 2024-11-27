@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 //import 'etiquetas.dart';
 //import 'informacionyayuda.dart';
 //import 'favoritosetiquetas.dart';
-//import 'exportacioncopias.dart';
+import 'exportacioncopias.dart';
 void main(){
 
 }
