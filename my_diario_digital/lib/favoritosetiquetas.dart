@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-void main() {
+/*void main() {
   runApp(MyApp());
-}
+}*/
 
 class MyApp extends StatelessWidget {
   @override
@@ -43,7 +43,6 @@ class FavoritosEtiquetasController {
 
   Future<void> inicializarDB() async {
     String path = join(await getDatabasesPath(), 'favoritos_etiquetas.db');
-
     _db = await openDatabase(
       path,
       onCreate: (db, version) {
