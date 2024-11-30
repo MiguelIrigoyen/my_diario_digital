@@ -69,7 +69,14 @@ class PantallaPrincipal extends StatelessWidget {
                 // Navegar a la entradas
                 Navigator.pushNamed(context, '/entradas');
               },
-            )
+            ),
+            IconButton(
+              icon: Icon(Icons.access_alarm),
+              onPressed: () {
+                // Navegar a la entradas
+                Navigator.pushNamed(context, '/entradas');
+              },
+            ),
           ],
         ),
       ),
