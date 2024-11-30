@@ -1,103 +1,67 @@
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'exportacioncopias_model.dart';
-export 'exportacioncopias_model.dart';
 
-class ExportacioncopiasWidget extends StatefulWidget {
-  const ExportacioncopiasWidget({super.key});
-
-  @override
-  State<ExportacioncopiasWidget> createState() =>
-      _ExportacioncopiasWidgetState();
-}
-
-class _ExportacioncopiasWidgetState extends State<ExportacioncopiasWidget> {
-  late ExportacioncopiasModel _model;
-
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    super.initState();
-    _model = createModel(context, () => ExportacioncopiasModel());
-  }
-
-  @override
-  void dispose() {
-    _model.dispose();
-
-    super.dispose();
-  }
-
+class ExportarCopiaSeguridad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        appBar: AppBar(
-          backgroundColor: FlutterFlowTheme.of(context).primary,
-          automaticallyImplyLeading: false,
-          title: Text(
-            'Exportacion y Copia de seguridad',
-            style: FlutterFlowTheme.of(context).headlineMedium.override(
-              fontFamily: 'Inter Tight',
-              color: Colors.white,
-              fontSize: 22.0,
-              letterSpacing: 0.0,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Exportar y Copia de Seguridad'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                // Llamar al método exportarEntrada
+                exportarEntrada(1, "PDF");
+              },
+              child: Text('Exportar Entrada'),
             ),
-          ),
-          actions: [],
-          centerTitle: false,
-          elevation: 2.0,
-        ),
-        body: SafeArea(
-          top: true,
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Theme(
-                data: ThemeData(
-                  checkboxTheme: CheckboxThemeData(
-                    visualDensity: VisualDensity.compact,
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                  ),
-                  unselectedWidgetColor: FlutterFlowTheme.of(context).alternate,
-                ),
-                child: Checkbox(
-                  value: _model.copiaSeguriadadCheckboxValue ??= true,
-                  onChanged: (newValue) async {
-                    safeSetState(
-                            () => _model.copiaSeguriadadCheckboxValue = newValue!);
-                  },
-                  side: BorderSide(
-                    width: 2,
-                    color: FlutterFlowTheme.of(context).alternate,
-                  ),
-                  activeColor: FlutterFlowTheme.of(context).primary,
-                  checkColor: FlutterFlowTheme.of(context).info,
-                ),
-              ),
-              Text(
-                'Realizar copia de seguridad',
-                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  fontFamily: 'Inter',
-                  letterSpacing: 0.0,
-                ),
-              ),
-            ],
-          ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                // Llamar al método realizarCopiaSeguridad
+                realizarCopiaSeguridad();
+              },
+              child: Text('Realizar Copia de Seguridad'),
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                // Llamar al método restaurarCopiaSeguridad
+                restaurarCopiaSeguridad('ruta/archivo.backup');
+              },
+              child: Text('Restaurar Copia de Seguridad'),
+            ),
+          ],
         ),
       ),
     );
   }
-}
 
+  void exportarEntrada(int idEntrada, String formato) {
+    // Simula la lógica para exportar una entrada
+    print('Exportando entrada con ID: $idEntrada en formato: $formato');
+    // Aquí se llamaría a una API con un método GET.
+  }
+
+  Future<bool> realizarCopiaSeguridad() async {
+    // Simula la lógica para realizar una copia de seguridad
+    print('Realizando copia de seguridad...');
+    // Aquí se llamaría a una API con un método POST.
+    await Future.delayed(Duration(seconds: 1)); // Simulación de un proceso
+    print('Copia de seguridad realizada con éxito.');
+    return true;
+  }
+
+  Future<bool> restaurarCopiaSeguridad(String archivo) async {
+    // Simula la lógica para restaurar una copia de seguridad desde un archivo
+    print('Restaurando copia de seguridad desde el archivo: $archivo');
+    // Aquí se llamaría a una API con un método POST.
+    await Future.delayed(Duration(seconds: 2)); // Simulación de un proceso
+    print('Copia de seguridad restaurada con éxito.');
+    return true;
+  }
+}
