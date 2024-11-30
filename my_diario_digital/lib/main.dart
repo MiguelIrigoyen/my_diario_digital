@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 //import 'calendario.dart';
 //import 'configuracion.dart';
 //import 'detallesentrada.dart';
-//import 'entradas.dart';
+import 'entradas.dart';
 //import 'etiquetas.dart';
 //import 'informacionyayuda.dart';
 //import 'favoritosetiquetas.dart';
@@ -13,14 +13,14 @@ void main() {
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {git
     return MaterialApp(
       title: 'Mi Diario digital',
       initialRoute: '/', // Ruta inicial
       routes: {
         '/': (context) => PantallaPrincipal(), // Pantalla principal
         //'/fEtiquetas':  (context) => ,
-        //'/fEtiquetas':  (context) => ,
+        '/Entradas':  (context) =>EntradasWidget() ,
         '/ecSeguridad': (context) => ExportarCopiaSeguridad(),
       },
     );
@@ -59,6 +59,13 @@ class PantallaPrincipal extends StatelessWidget {
                 Navigator.pushNamed(context, '/ecSeguridad');
               },
             ),
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                // Navegar a la entradas
+                Navigator.pushNamed(context, '/entradas');
+              },
+            )
           ],
         ),
       ),
