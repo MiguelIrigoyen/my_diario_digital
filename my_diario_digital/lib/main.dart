@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 //import 'calendario.dart';
 //import 'configuracion.dart';
 //import 'detallesentrada.dart';
-import 'entradas.dart';
+// 'entradas.dart';
 //import 'etiquetas.dart';
 //import 'informacionyayuda.dart';
 //import 'favoritosetiquetas.dart';
@@ -13,14 +13,14 @@ void main() {
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {git
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Mi Diario digital',
       initialRoute: '/', // Ruta inicial
       routes: {
         '/': (context) => PantallaPrincipal(), // Pantalla principal
         //'/fEtiquetas':  (context) => ,
-        '/Entradas':  (context) =>EntradasWidget() ,
+        //'/Entradas':  (context) =>EntradasWidget() ,
         '/ecSeguridad': (context) => ExportarCopiaSeguridad(),
       },
     );
@@ -32,7 +32,11 @@ class PantallaPrincipal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pantalla Principal'),
+        backgroundColor: Colors.blue,
+        title: Text('Pantalla Principal',
+            style: TextStyle(color: Colors.white)
+        ),
+
       ),
       body: Center(
         child: ElevatedButton(
@@ -49,7 +53,7 @@ class PantallaPrincipal extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              icon: Icon(Icons.menu),
+              icon: Icon(Icons.account_balance_sharp),
               onPressed: () {},
             ),
             IconButton(
@@ -60,7 +64,7 @@ class PantallaPrincipal extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: Icon(Icons.search),
+              icon: Icon(Icons.add_box_outlined),
               onPressed: () {
                 // Navegar a la entradas
                 Navigator.pushNamed(context, '/entradas');
