@@ -33,11 +33,51 @@ class PantallaPrincipal extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text('Pantalla Principal',
-            style: TextStyle(color: Colors.white)
-        ),
+        title:Center(
+        child: Text('Pantalla Principal',
 
+               style: TextStyle(color: Colors.white),
+        ),
+        ),
       ),
+    drawer: Drawer(
+    child: ListView(
+    padding: EdgeInsets.zero,
+    children: [
+    DrawerHeader(
+    decoration: BoxDecoration(color: Colors.blue),
+    child: Text(
+    'Menú',
+    style: TextStyle(
+    color: Colors.white,
+    fontSize: 24,
+    ),
+    ),
+    ),
+    ListTile(
+    leading: Icon(Icons.home),
+    title: Text('Inicio'),
+    onTap: () {
+    // Acción al presionar
+    },
+    ),
+    ListTile(
+    leading: Icon(Icons.settings),
+    title: Text('Configuración'),
+    onTap: () {
+    // Acción al presionar
+    },
+    ),
+    ListTile(
+    leading: Icon(Icons.logout),
+    title: Text('Cerrar sesión'),
+    onTap: () {
+    // Acción al presionar
+    },
+    ),
+    ],
+    ),
+    ),
       body: Center(
         child: ElevatedButton(
           onPressed: () {
@@ -80,7 +120,6 @@ class PantallaPrincipal extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: const FloatingActionButton(onPressed: null),
     );
   }
 }

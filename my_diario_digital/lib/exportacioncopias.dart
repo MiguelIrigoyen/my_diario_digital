@@ -4,9 +4,53 @@ class ExportarCopiaSeguridad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Exportar y Copia de Seguridad'),
-      ),
+        appBar: AppBar(
+          backgroundColor: Colors.blue,
+          title:Center(
+            child: Text('Exportacion y copia de seguridad',
+
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(color: Colors.blue),
+                child: Text(
+                  'Menú',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.home),
+                title: Text('Inicio'),
+                onTap: () {
+                  // Acción al presionar
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Configuración'),
+                onTap: () {
+                  // Acción al presionar
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.logout),
+                title: Text('Cerrar sesión'),
+                onTap: () {
+                  // Acción al presionar
+                },
+              ),
+            ],
+          ),
+        ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
