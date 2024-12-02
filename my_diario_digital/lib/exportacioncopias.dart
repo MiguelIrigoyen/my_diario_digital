@@ -82,6 +82,39 @@ class ExportarCopiaSeguridad extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.blue,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              icon: Icon(Icons.account_balance_sharp),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                // Navegar a la pantalla de exportacion  y copia de seguridad
+                Navigator.pushNamed(context, '/ecSeguridad');
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.add_box_outlined),
+              onPressed: () {
+                // Navegar a la entradas
+                Navigator.pushNamed(context, '/entradas');
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.access_alarm),
+              onPressed: () {
+                // Navegar a la entradas
+                Navigator.pushNamed(context, '/entradas');
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 

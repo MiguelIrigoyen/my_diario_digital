@@ -87,6 +87,7 @@ class PantallaPrincipal extends StatelessWidget {
           child: Text('Exportacion y Copia de Seguridad'),
         ),
       ),
+      //copiar este BottomNavigationBar en todas las pantallas
       bottomNavigationBar: BottomAppBar(
         color: Colors.blue,
         child: Row(
