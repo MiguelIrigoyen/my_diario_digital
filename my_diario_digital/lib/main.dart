@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'calendario.dart';
 //import 'configuracion.dart';
-//import 'detallesentrada.dart';
+import 'detallesentrada.dart';
 // 'entradas.dart';
 //import 'etiquetas.dart';
 //import 'informacionyayuda.dart';
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => PantallaPrincipal(), // Pantalla principal
         //'/fEtiquetas':  (context) => ,
-        //'/Entradas':  (context) =>EntradasWidget() ,
+        '/entradas':  (context) =>CrearEntrada() ,
         '/ecSeguridad': (context) => ExportarCopiaSeguridad(),
         '/Inicio': (context) => PantallaPrincipal(),
       },
