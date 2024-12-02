@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         //'/fEtiquetas':  (context) => ,
         //'/Entradas':  (context) =>EntradasWidget() ,
         '/ecSeguridad': (context) => ExportarCopiaSeguridad(),
+        '/Inicio': (context) => PantallaPrincipal(),
       },
     );
   }
@@ -58,7 +59,7 @@ class PantallaPrincipal extends StatelessWidget {
     leading: Icon(Icons.home),
     title: Text('Inicio'),
     onTap: () {
-    // Acción al presionar
+      Navigator.pushNamed(context, '/Inicio');
     },
     ),
     ListTile(
@@ -94,11 +95,13 @@ class PantallaPrincipal extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              icon: Icon(Icons.account_balance_sharp),
-              onPressed: () {},
+              icon: Icon(Icons.home),
+              onPressed: () {
+                Navigator.pushNamed(context, '/Inicio');
+              },
             ),
             IconButton(
-              icon: Icon(Icons.search),
+              icon: Icon(Icons.archive_rounded),
               onPressed: () {
                 // Navegar a la pantalla de exportacion  y copia de seguridad
                 Navigator.pushNamed(context, '/ecSeguridad');

@@ -13,44 +13,7 @@ class ExportarCopiaSeguridad extends StatelessWidget {
             ),
           ),
         ),
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              DrawerHeader(
-                decoration: BoxDecoration(color: Colors.blue),
-                child: Text(
-                  'Menú',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.home),
-                title: Text('Inicio'),
-                onTap: () {
-                  // Acción al presionar
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('Configuración'),
-                onTap: () {
-                  // Acción al presionar
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.logout),
-                title: Text('Cerrar sesión'),
-                onTap: () {
-                  // Acción al presionar
-                },
-              ),
-            ],
-          ),
-        ),
+
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -78,39 +41,6 @@ class ExportarCopiaSeguridad extends StatelessWidget {
                 restaurarCopiaSeguridad('ruta/archivo.backup');
               },
               child: Text('Restaurar Copia de Seguridad'),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.blue,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: Icon(Icons.account_balance_sharp),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                // Navegar a la pantalla de exportacion  y copia de seguridad
-                Navigator.pushNamed(context, '/ecSeguridad');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.add_box_outlined),
-              onPressed: () {
-                // Navegar a la entradas
-                Navigator.pushNamed(context, '/entradas');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.access_alarm),
-              onPressed: () {
-                // Navegar a la entradas
-                Navigator.pushNamed(context, '/entradas');
-              },
             ),
           ],
         ),
