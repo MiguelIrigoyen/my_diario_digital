@@ -1,217 +1,95 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 
-/*void main() {
-  runApp(MyApp());
-}*/
+void main() => runApp(FavoritosApp());
 
-class MyApp extends StatelessWidget {
+class FavoritosApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Gestor de Favoritos y Etiquetas',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: FavoritosEtiquetasScreen(),
+      home: FavoritosScreen(),
     );
   }
 }
 
-// Modelo para una entrada
-class Entrada {
-  final int id;
-  final String titulo;
-  final String contenido;
-  final DateTime fechaCreacion;
-  bool esFavorito;
-  List<String> etiquetas;
-
-  Entrada({
-    required this.id,
-    required this.titulo,
-    required this.contenido,
-    required this.fechaCreacion,
-    this.esFavorito = false,
-    this.etiquetas = const [],
-  });
-}
-
-// Controlador para gestionar favoritos y etiquetas
-class FavoritosEtiquetasController {
-  late Database _db;
-
-  Future<void> inicializarDB() async {
-    String path = join(await getDatabasesPath(), 'favoritos_etiquetas.db');
-    _db = await openDatabase(
-      path,
-      onCreate: (db, version) {
-        db.execute(
-            '''CREATE TABLE entradas (id INTEGER PRIMARY KEY, titulo TEXT, contenido TEXT, fechaCreacion TEXT, esFavorito INTEGER)''');
-        db.execute(
-            '''CREATE TABLE etiquetas (id INTEGER PRIMARY KEY, entradaId INTEGER, nombre TEXT, FOREIGN KEY (entradaId) REFERENCES entradas (id))''');
-      },
-      version: 1,
-    );
-  }
-
-  Future<void> agregarEntrada(Entrada entrada) async {
-    await _db.insert('entradas', {
-      'id': entrada.id,
-      'titulo': entrada.titulo,
-      'contenido': entrada.contenido,
-      'fechaCreacion': entrada.fechaCreacion.toIso8601String(),
-      'esFavorito': entrada.esFavorito ? 1 : 0,
-    });
-  }
-
-  Future<List<Entrada>> obtenerFavoritos() async {
-    final data = await _db.query(
-      'entradas',
-      where: 'esFavorito = ?',
-      whereArgs: [1],
-      orderBy: 'fechaCreacion DESC',
-    );
-
-    return data
-        .map((e) => Entrada(
-              id: e['id'] as int,
-              titulo: e['titulo'] as String,
-              contenido: e['contenido'] as String,
-              fechaCreacion: DateTime.parse(e['fechaCreacion'] as String),
-              esFavorito: (e['esFavorito'] as int) == 1,
-            ))
-        .toList();
-  }
-
-  Future<void> marcarFavorito(int idEntrada) async {
-    final entrada = await _db.query(
-      'entradas',
-      where: 'id = ?',
-      whereArgs: [idEntrada],
-    );
-
-    if (entrada.isNotEmpty) {
-      final esFavorito = (entrada.first['esFavorito'] as int) == 1;
-      await _db.update(
-        'entradas',
-        {'esFavorito': esFavorito ? 0 : 1},
-        where: 'id = ?',
-        whereArgs: [idEntrada],
-      );
-    }
-  }
-
-  Future<void> agregarEtiqueta(int idEntrada, String etiqueta) async {
-    await _db.insert('etiquetas', {
-      'entradaId': idEntrada,
-      'nombre': etiqueta.trim().toLowerCase(),
-    });
-  }
-
-  Future<List<Entrada>> buscarPorEtiqueta(String etiqueta) async {
-    final data = await _db.rawQuery(
-        '''SELECT e.* FROM entradas e INNER JOIN etiquetas t ON e.id = t.entradaId WHERE t.nombre = ?''',
-        [etiqueta.toLowerCase()]);
-
-    return data
-        .map((e) => Entrada(
-              id: e['id'] as int,
-              titulo: e['titulo'] as String,
-              contenido: e['contenido'] as String,
-              fechaCreacion: DateTime.parse(e['fechaCreacion'] as String),
-              esFavorito: (e['esFavorito'] as int) == 1,
-            ))
-        .toList();
-  }
-}
-
-// Pantalla principal
-class FavoritosEtiquetasScreen extends StatefulWidget {
+class FavoritosScreen extends StatefulWidget {
   @override
-  _FavoritosEtiquetasScreenState createState() =>
-      _FavoritosEtiquetasScreenState();
+  _FavoritosScreenState createState() => _FavoritosScreenState();
 }
 
-class _FavoritosEtiquetasScreenState extends State<FavoritosEtiquetasScreen> {
-  final FavoritosEtiquetasController _controller =
-      FavoritosEtiquetasController();
-  List<Entrada> _favoritos = [];
-  final TextEditingController _etiquetaController = TextEditingController();
+class _FavoritosScreenState extends State<FavoritosScreen> {
+  List<String> favoritos = []; // Lista simulada de favoritos
+  TextEditingController etiquetaController = TextEditingController();
+  TextEditingController buscarEtiquetaController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    _controller.inicializarDB().then((_) => _cargarFavoritos());
-  }
-
-  Future<void> _cargarFavoritos() async {
-    final favoritos = await _controller.obtenerFavoritos();
+  // Simulación de la función verFavoritos()
+  void verFavoritos() {
     setState(() {
-      _favoritos = favoritos;
+      favoritos = ["Entrada 1", "Entrada 2", "Entrada 3"];
     });
   }
 
-  Future<void> _marcarFavorito(int id) async {
-    await _controller.marcarFavorito(id);
-    _cargarFavoritos();
+  // Simulación de la función marcarFavorito()
+  void marcarFavorito(int idEntrada) {
+    print("Entrada $idEntrada marcada como favorita");
   }
 
-  Future<void> _buscarPorEtiqueta() async {
-    final etiqueta = _etiquetaController.text.trim();
-    if (etiqueta.isEmpty) return;
+  // Simulación de la función agregarEtiqueta()
+  void agregarEtiqueta(int idEntrada, String etiqueta) {
+    print("Etiqueta '$etiqueta' agregada a la entrada $idEntrada");
+  }
 
-    final filtrados = await _controller.buscarPorEtiqueta(etiqueta);
-    setState(() {
-      _favoritos = filtrados;
-    });
+  // Simulación de la función buscarPorEtiqueta()
+  void buscarPorEtiqueta(String etiqueta) {
+    print("Buscando entradas con la etiqueta: $etiqueta");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Favoritos y Etiquetas')),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _etiquetaController,
-                    decoration: InputDecoration(labelText: 'Buscar etiqueta'),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: _buscarPorEtiqueta,
-                  child: Text('Buscar'),
-                ),
-              ],
+      appBar: AppBar(
+        title: Text("Gestión de Favoritos"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: verFavoritos,
+              child: Text("Ver Favoritos"),
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _favoritos.length,
-              itemBuilder: (context, index) {
-                final entrada = _favoritos[index];
-                return ListTile(
-                  title: Text(entrada.titulo),
-                  subtitle: Text(entrada.fechaCreacion.toIso8601String()),
-                  trailing: IconButton(
-                    icon: Icon(
-                      entrada.esFavorito
-                          ? Icons.favorite
-                          : Icons.favorite_border,
-                      color: entrada.esFavorito ? Colors.red : Colors.grey,
-                    ),
-                    onPressed: () => _marcarFavorito(entrada.id),
-                  ),
-                );
+            if (favoritos.isNotEmpty)
+              ...favoritos.map((fav) => ListTile(title: Text(fav))).toList(),
+            SizedBox(height: 20),
+            TextField(
+              controller: etiquetaController,
+              decoration: InputDecoration(
+                labelText: "Agregar etiqueta",
+                hintText: "Ingresa etiqueta",
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                agregarEtiqueta(1, etiquetaController.text);
+                etiquetaController.clear();
               },
+              child: Text("Agregar Etiqueta a Entrada 1"),
             ),
-          ),
-        ],
+            SizedBox(height: 20),
+            TextField(
+              controller: buscarEtiquetaController,
+              decoration: InputDecoration(
+                labelText: "Buscar por etiqueta",
+                hintText: "Ingresa etiqueta",
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                buscarPorEtiqueta(buscarEtiquetaController.text);
+              },
+              child: Text("Buscar"),
+            ),
+          ],
+        ),
       ),
     );
   }
