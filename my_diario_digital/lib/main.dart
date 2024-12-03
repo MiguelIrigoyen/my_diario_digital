@@ -129,6 +129,12 @@ class PantallaPrincipal extends StatelessWidget {
                 Navigator.pushNamed(context, '/entradas');
               },
             ),
+            IconButton(
+              icon: Icon(Icons.archive_rounded),
+              onPressed: () {
+                Navigator.pushNamed(context, '/fEtiquetas');
+              },
+            ),
           ],
         ),
       ),
@@ -242,15 +248,9 @@ class Configuracion extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: Icon(Icons.),
+              icon: Icon(Icons.access_alarm),
               onPressed: () {
                 Navigator.pushNamed(context, '/Mapa');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.archive_rounded),
-              onPressed: () {
-                Navigator.pushNamed(context, '/fEtiquetas');
               },
             ),
           ],
