@@ -5,7 +5,8 @@ import 'detallesentrada.dart';
 // 'entradas.dart';
 //import 'etiquetas.dart';
 //import 'informacionyayuda.dart';
-//import 'favoritosetiquetas.dart';
+import 'favoritosetiquetas.dart';
+//import 'mapa.dart';
 import 'exportacioncopias.dart';
 void main() {
   runApp(MyApp());
@@ -19,12 +20,13 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', // Ruta inicial
       routes: {
         '/': (context) => PantallaPrincipal(), // Pantalla principal
-        //'/fEtiquetas':  (context) => ,
+        '/fEtiquetas':  (context) => FavoritosApp(),
         '/entradas':  (context) =>CrearEntrada() ,
         '/ecSeguridad': (context) => ExportarCopiaSeguridad(),
         '/Inicio': (context) => PantallaPrincipal(),
         '/Calendario': (context) => Calendario(),
         '/Configuracion': (context) => Configuracion(),
+        //'/Mapa':  (context) => ,
       },
     );
   }
@@ -237,6 +239,18 @@ class Configuracion extends StatelessWidget {
               icon: Icon(Icons.archive_rounded),
               onPressed: () {
                 Navigator.pushNamed(context, '/ecSeguridad');
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.),
+              onPressed: () {
+                Navigator.pushNamed(context, '/Mapa');
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.archive_rounded),
+              onPressed: () {
+                Navigator.pushNamed(context, '/fEtiquetas');
               },
             ),
           ],
