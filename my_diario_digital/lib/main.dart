@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'calendario.dart';
 import 'configuracion.dart';
 import 'detallesentrada.dart';
-// 'entradas.dart';
 //import 'etiquetas.dart';
 //import 'informacionyayuda.dart';
 import 'favoritosetiquetas.dart';
@@ -31,7 +30,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 class PantallaPrincipal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -124,13 +122,7 @@ class PantallaPrincipal extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: Icon(Icons.access_alarm),
-              onPressed: () {
-                Navigator.pushNamed(context, '/entradas');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.archive_rounded),
+              icon: Icon(Icons.discount_sharp),
               onPressed: () {
                 Navigator.pushNamed(context, '/fEtiquetas');
               },
@@ -160,26 +152,6 @@ class Calendario extends StatelessWidget {
                 print('Obteniendo entradas por fecha');
               },
               child: Text('Obtener Entradas'),
-            ),
-          ],
-        ),
-      ),
-       bottomNavigationBar: BottomAppBar(
-        color: Colors.blue,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: Icon(Icons.home),
-              onPressed: () {
-                Navigator.pushNamed(context, '/Inicio');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.archive_rounded),
-              onPressed: () {
-                Navigator.pushNamed(context, '/ecSeguridad');
-              },
             ),
           ],
         ),
@@ -229,32 +201,6 @@ class Configuracion extends StatelessWidget {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.blue,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: Icon(Icons.home),
-              onPressed: () {
-                Navigator.pushNamed(context, '/Inicio');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.archive_rounded),
-              onPressed: () {
-                Navigator.pushNamed(context, '/ecSeguridad');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.access_alarm),
-              onPressed: () {
-                Navigator.pushNamed(context, '/Mapa');
-              },
-            ),
-          ],
-        ),
       ),
     );
   }
