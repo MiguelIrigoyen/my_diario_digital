@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart'; //Libreria de table_calendar
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -9,6 +10,8 @@ class CalendarioScreen extends StatefulWidget {
 
 class _CalendarioScreenState extends State<CalendarioScreen> {
   List<dynamic> _entradas = [];
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
 
   Future<void> fetchEntradas(String fecha) async {
     final url = Uri.parse("https://tu-servidor.com/api/calendar/entries?fecha=$fecha");
@@ -32,11 +35,12 @@ class _CalendarioScreenState extends State<CalendarioScreen> {
       print("Error: $e");
     }
   }
-
+  
   @override
   void initState() {
     super.initState();
-    fetchEntradas("2024-11-26T00:00:00Z");
+    _selectedDay = _focusedDay;
+    fetchEntradas(_focusedDay.toIso8601String());
   }
 
   @override
@@ -45,15 +49,46 @@ class _CalendarioScreenState extends State<CalendarioScreen> {
       appBar: AppBar(
         title: Text("Calendario"),
       ),
-      body: ListView.builder(
-        itemCount: _entradas.length,
-        itemBuilder: (context, index) {
-          final entrada = _entradas[index];
-          return ListTile(
-            title: Text(entrada["descripcion"]),
-            subtitle: Text("Multimedia: ${entrada["multimedia"].length} elementos"),
-          );
-        },
+      body: Column(
+        children: [
+          TableCalendar(
+            focusedDay: _focusedDay,
+            firstDay: DateTime(2000),
+            lastDay: DateTime(2100),
+            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+            onDaySelected: (selectedDay, focusedDay) {
+              setState(() {
+                _selectedDay = selectedDay;
+                _focusedDay = focusedDay;
+              });
+              fetchEntradas(selectedDay.toIso8601String());
+            },
+            calendarStyle: CalendarStyle(
+              selectedDecoration: BoxDecoration(
+                color: Colors.blue,
+                shape: BoxShape.circle,
+              ),
+              todayDecoration: BoxDecoration(
+                color: Colors.orange,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Expanded(
+            child: _entradas.isEmpty
+                ? Center(child: Text("No hay entradas para esta fecha."))
+                : ListView.builder(
+                    itemCount: _entradas.length,
+                    itemBuilder: (context, index) {
+                      final entrada = _entradas[index];
+                      return ListTile(
+                        title: Text(entrada["descripcion"]),
+                        subtitle: Text("Multimedia: ${entrada["multimedia"].length} elementos"),
+                      );
+                    },
+                  ),
+          ),
+        ],
       ),
     );
   }
