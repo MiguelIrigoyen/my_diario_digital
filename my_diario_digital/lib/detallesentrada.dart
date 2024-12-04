@@ -62,28 +62,31 @@ class _CrearEntradaState extends State<CrearEntrada> {
                 controller: _notaTextoController,
                 decoration: InputDecoration(labelText: 'Nota de texto'),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 50),
               ElevatedButton.icon(
                 icon: Icon(Icons.photo),
                 label: Text('Agregar Foto'),
                 onPressed: agregarFoto,
               ),
+              SizedBox(height: 50),
               ElevatedButton.icon(
                 icon: Icon(Icons.videocam),
                 label: Text('Agregar Video'),
                 onPressed: agregarVideo,
               ),
+              SizedBox(height: 50),
               ElevatedButton.icon(
                 icon: Icon(Icons.mic),
                 label: Text('Grabar Audio'),
                 onPressed: grabarAudio,
               ),
+              SizedBox(height: 50),
               ElevatedButton.icon(
                 icon: Icon(Icons.brush),
                 label: Text('Realizar Dibujo'),
                 onPressed: realizarDibujo,
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 50),
               ElevatedButton(
                 child: Text('Guardar Entrada'),
                 onPressed: guardarEntrada,
