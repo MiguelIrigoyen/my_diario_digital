@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_calendar/flutter_calendar.dart'; // Usa una librería de calendario de Flutter
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -11,7 +9,6 @@ class CalendarioScreen extends StatefulWidget {
 
 class _CalendarioScreenState extends State<CalendarioScreen> {
   List<dynamic> _entradas = [];
-  DateTime _selectedDate = DateTime.now();
 
   Future<void> fetchEntradas(String fecha) async {
     final url = Uri.parse("https://tu-servidor.com/api/calendar/entries?fecha=$fecha");
@@ -36,17 +33,10 @@ class _CalendarioScreenState extends State<CalendarioScreen> {
     }
   }
 
-  void _onDateSelected(DateTime date) {
-    setState(() {
-      _selectedDate = date;
-    });
-    fetchEntradas(date.toIso8601String());
-  }
-
   @override
   void initState() {
     super.initState();
-    fetchEntradas(_selectedDate.toIso8601String());
+    fetchEntradas("2024-11-26T00:00:00Z");
   }
 
   @override
@@ -55,38 +45,15 @@ class _CalendarioScreenState extends State<CalendarioScreen> {
       appBar: AppBar(
         title: Text("Calendario"),
       ),
-      body: Column(
-        children: [
-          Calendar( // Widget del calendario
-            onDateSelected: _onDateSelected,
-            isExpandable: true,
-            initialCalendarDateOverride: _selectedDate,
-            dayBuilder: (context, date) {
-              // Personaliza los días si lo necesitas
-              return Container(
-                decoration: BoxDecoration(
-                  color: _selectedDate == date ? Colors.blue : Colors.white,
-                  border: Border.all(color: Colors.black12),
-                ),
-                child: Center(child: Text("${date.day}")),
-              );
-            },
-          ),
-          Expanded(
-            child: _entradas.isEmpty
-                ? Center(child: Text("No hay entradas para esta fecha."))
-                : ListView.builder(
-                    itemCount: _entradas.length,
-                    itemBuilder: (context, index) {
-                      final entrada = _entradas[index];
-                      return ListTile(
-                        title: Text(entrada["descripcion"]),
-                        subtitle: Text("Multimedia: ${entrada["multimedia"].length} elementos"),
-                      );
-                    },
-                  ),
-          ),
-        ],
+      body: ListView.builder(
+        itemCount: _entradas.length,
+        itemBuilder: (context, index) {
+          final entrada = _entradas[index];
+          return ListTile(
+            title: Text(entrada["descripcion"]),
+            subtitle: Text("Multimedia: ${entrada["multimedia"].length} elementos"),
+          );
+        },
       ),
     );
   }
