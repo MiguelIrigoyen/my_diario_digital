@@ -19,6 +19,7 @@ class ExportarCopiaSeguridad extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            SizedBox(height: 300),
             ElevatedButton(
               onPressed: () {
                 // Llamar al método exportarEntrada
@@ -26,7 +27,7 @@ class ExportarCopiaSeguridad extends StatelessWidget {
               },
               child: Text('Exportar Entrada'),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
                 // Llamar al método realizarCopiaSeguridad
@@ -34,7 +35,7 @@ class ExportarCopiaSeguridad extends StatelessWidget {
               },
               child: Text('Realizar Copia de Seguridad'),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
                 // Llamar al método restaurarCopiaSeguridad
