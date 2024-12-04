@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'calendario.dart';
+//import 'calendario.dart';
 import 'configuracion.dart';
 import 'detallesentrada.dart';
 //import 'etiquetas.dart';
 //import 'informacionyayuda.dart';
 import 'favoritosetiquetas.dart';
-//import 'mapa.dart';
+import 'mapa.dart';
 import 'exportacioncopias.dart';
 void main() {
   runApp(MyApp());
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         '/Inicio': (context) => PantallaPrincipal(),
         '/Calendario': (context) => Calendario(),
         '/Configuracion': (context) => Configuracion(),
-        //'/Mapa':  (context) => ,
+        '/Mapa':  (context) =>GoogleMapPage(),
       },
     );
   }
@@ -125,6 +125,12 @@ class PantallaPrincipal extends StatelessWidget {
               icon: Icon(Icons.discount_sharp),
               onPressed: () {
                 Navigator.pushNamed(context, '/fEtiquetas');
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.home),
+              onPressed: () {
+                Navigator.pushNamed(context, '/Mapa');
               },
             ),
           ],
