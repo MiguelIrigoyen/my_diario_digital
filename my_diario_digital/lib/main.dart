@@ -128,7 +128,7 @@ class PantallaPrincipal extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: Icon(Icons.home),
+              icon: Icon(Icons.map_sharp),
               onPressed: () {
                 Navigator.pushNamed(context, '/Mapa');
               },
