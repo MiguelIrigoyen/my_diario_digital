@@ -28,7 +28,7 @@ class _EntradasWidgetState extends State<EntradasWidget> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  @override
+  @overrideg
   void initState() {
     super.initState();
     _model = createModel(context, () => EntradasModel());

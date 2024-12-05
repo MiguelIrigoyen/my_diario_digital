@@ -90,6 +90,11 @@ class _CrearEntradaState extends State<CrearEntrada> {
               ElevatedButton(
                 child: Text('Guardar Entrada'),
                 onPressed: guardarEntrada,
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+
+                ),
               ),
             ],
           ),

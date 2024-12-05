@@ -8,7 +8,6 @@ class ExportarCopiaSeguridad extends StatelessWidget {
           backgroundColor: Colors.blue,
           title:Center(
             child: Text('Exportacion y copia de seguridad',
-
               style: TextStyle(color: Colors.white),
             ),
           ),
