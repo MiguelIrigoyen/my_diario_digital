@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 //import 'calendario.dart';
 import 'configuracion.dart';
 import 'detallesentrada.dart';
@@ -36,10 +37,15 @@ class PantallaPrincipal extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
+        elevation: 4,
         title: Center(
           child: Text(
             'Pantalla Principal',
-            style: TextStyle(color: Colors.white),
+            style: GoogleFonts.poppins(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
         ),
       ),
@@ -48,39 +54,48 @@ class PantallaPrincipal extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text(
-                'Menú',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.lightBlueAccent],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  'Menú',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-    ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Inicio'),
+            _buildDrawerItem(
+              icon: Icons.home,
+              text: 'Inicio',
               onTap: () {
                 Navigator.pushNamed(context, '/Inicio');
               },
             ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Configuración'),
+            _buildDrawerItem(
+              icon: Icons.settings,
+              text: 'Configuración',
               onTap: () {
                 Navigator.pushNamed(context, '/Configuracion');
               },
             ),
-            ListTile(
-              leading: Icon(Icons.calendar_today),
-              title: Text('Calendario'),
+            _buildDrawerItem(
+              icon: Icons.calendar_today,
+              text: 'Calendario',
               onTap: () {
                 Navigator.pushNamed(context, '/Calendario');
               },
             ),
-    ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Cerrar sesión'),
+            _buildDrawerItem(
+              icon: Icons.logout,
+              text: 'Cerrar sesión',
               onTap: () {
                 // Acción al presionar
               },
@@ -91,54 +106,96 @@ class PantallaPrincipal extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            // Navegar a la pantalla de exportacion  y copia de seguridad
             Navigator.pushNamed(context, '/ecSeguridad');
           },
-          child: Text('Exportacion y Copia de Seguridad'),
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white, backgroundColor: Colors.blue,
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            shadowColor: Colors.blueAccent,
+            elevation: 5,
+          ),
+          child: Text(
+            'Exportación y Copia de Seguridad',
+            style: TextStyle(fontSize: 16),
+          ),
         ),
       ),
-      //copiar este BottomNavigationBar en todas las pantallas
       bottomNavigationBar: BottomAppBar(
         color: Colors.blue,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: Icon(Icons.home),
-              onPressed: () {
-                Navigator.pushNamed(context, '/Inicio');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.archive_rounded),
-              onPressed: () {
-                Navigator.pushNamed(context, '/ecSeguridad');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.add_box_outlined),
-              onPressed: () {
-                Navigator.pushNamed(context, '/entradas');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.discount_sharp),
-              onPressed: () {
-                Navigator.pushNamed(context, '/fEtiquetas');
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.map_sharp),
-              onPressed: () {
-                Navigator.pushNamed(context, '/Mapa');
-              },
-            ),
-          ],
+        shape: CircularNotchedRectangle(),
+        notchMargin: 6,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildBottomNavItem(
+                icon: Icons.home,
+                onTap: () {
+                  Navigator.pushNamed(context, '/Inicio');
+                },
+              ),
+              _buildBottomNavItem(
+                icon: Icons.archive_rounded,
+                onTap: () {
+                  Navigator.pushNamed(context, '/ecSeguridad');
+                },
+              ),
+              _buildBottomNavItem(
+                icon: Icons.add_box_outlined,
+                onTap: () {
+                  Navigator.pushNamed(context, '/entradas');
+                },
+              ),
+              _buildBottomNavItem(
+                icon: Icons.discount_sharp,
+                onTap: () {
+                  Navigator.pushNamed(context, '/fEtiquetas');
+                },
+              ),
+              _buildBottomNavItem(
+                icon: Icons.map_sharp,
+                onTap: () {
+                  Navigator.pushNamed(context, '/Mapa');
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+
+  Widget _buildDrawerItem({
+    required IconData icon,
+    required String text,
+    required VoidCallback onTap,
+  }) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.blue),
+      title: Text(
+        text,
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      ),
+      onTap: onTap,
+    );
+  }
+
+  Widget _buildBottomNavItem({
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return IconButton(
+      icon: Icon(icon, color: Colors.white),
+      onPressed: onTap,
+      iconSize: 28,
+    );
+  }
 }
+
 
 class Calendario extends StatelessWidget {
   @override
