@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_diario_digital/urls.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class ExportarCopiaSeguridad extends StatelessWidget {
   @override
@@ -48,11 +51,29 @@ class ExportarCopiaSeguridad extends StatelessWidget {
     );
   }
 
-  void exportarEntrada(int idEntrada, String formato) {
-    // Simula la lógica para exportar una entrada
-    print('Exportando entrada con ID: $idEntrada en formato: $formato');
-    // Aquí se llamaría a una API con un método GET.
+
+  Future<void> exportarEntrada(int idEntrada, String formato) async {
+    final url = Uri.parse(urls.url);
+
+    try {
+      final response = await http.get(
+        url.replace(queryParameters: {
+          'idEntrada': idEntrada.toString(),
+          'formato': formato,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print('Entrada exportada correctamente: ${response.body}');
+        // Aquí puedes manejar el archivo descargado, si aplica.
+      } else {
+        print('Error al exportar la entrada: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error en la solicitud GET: $e');
+    }
   }
+
 
   Future<bool> realizarCopiaSeguridad() async {
     // Simula la lógica para realizar una copia de seguridad
