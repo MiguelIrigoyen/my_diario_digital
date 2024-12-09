@@ -156,12 +156,6 @@ class PantallaPrincipal extends StatelessWidget {
                   Navigator.pushNamed(context, '/fEtiquetas');
                 },
               ),
-              _buildBottomNavItem(
-                icon: Icons.map_sharp,
-                onTap: () {
-                  Navigator.pushNamed(context, '/Mapa');
-                },
-              ),
             ],
           ),
         ),

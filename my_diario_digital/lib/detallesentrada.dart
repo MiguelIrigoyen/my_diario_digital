@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'photo_screen.dart';
 import 'video_screan.dart';
+import 'mapa.dart';
 class CrearEntrada extends StatefulWidget {
   @override
   _CrearEntradaState createState() => _CrearEntradaState();
@@ -49,6 +50,7 @@ class _CrearEntradaState extends State<CrearEntrada> {
         title: Text('Crear Entrada'),
         backgroundColor: Colors.blue,
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -63,9 +65,9 @@ class _CrearEntradaState extends State<CrearEntrada> {
                 controller: _notaTextoController,
                 decoration: InputDecoration(labelText: 'Nota de texto'),
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 17),
               ElevatedButton.icon(
-                icon: Icon(Icons.photo),
+                icon: Icon(Icons.camera),
                 label: Text('Agregar Foto'),
                 onPressed:(){
                   Navigator.pushReplacement(
@@ -74,7 +76,7 @@ class _CrearEntradaState extends State<CrearEntrada> {
                   );
                 }
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 17),
               ElevatedButton.icon(
                 icon: Icon(Icons.videocam),
                 label: Text('Agregar Video'),
@@ -85,19 +87,24 @@ class _CrearEntradaState extends State<CrearEntrada> {
                     );
                   }
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 17),
               ElevatedButton.icon(
                 icon: Icon(Icons.mic),
                 label: Text('Grabar Audio'),
                 onPressed: grabarAudio,
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 17),
               ElevatedButton.icon(
-                icon: Icon(Icons.brush),
-                label: Text('Realizar Dibujo'),
-                onPressed: realizarDibujo,
+                icon: Icon(Icons.map_sharp),
+                label: Text('Guardar Ubicación'),
+                onPressed:(){
+                  Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => GoogleMapPage()),
+                  );
+              },
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 17),
               ElevatedButton(
                 child: Text('Guardar Entrada'),
                 onPressed: guardarEntrada,
