@@ -93,13 +93,10 @@ class _EntradasWidgetState extends State<EntradasWidget> {
                               iconPadding:
                               EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                               color: Colors.transparent,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                fontFamily: 'Inter',
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryText,
-                                letterSpacing: 0.0,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
                               ),
                               elevation: 0,
                             ),
@@ -116,13 +113,10 @@ class _EntradasWidgetState extends State<EntradasWidget> {
                               iconPadding:
                               EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                               color: Colors.transparent,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                fontFamily: 'Inter',
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryText,
-                                letterSpacing: 0.0,
+                              style: TextStyle(   //Cambio de letra
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
                               ),
                               elevation: 0,
                             ),
@@ -139,13 +133,10 @@ class _EntradasWidgetState extends State<EntradasWidget> {
                               iconPadding:
                               EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                               color: Colors.transparent,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                fontFamily: 'Inter',
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryText,
-                                letterSpacing: 0.0,
+                              style: TextStyle(   //Cambio de letra
+                                color: Colors.white,
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
                               ),
                               elevation: 0,
                             ),
@@ -190,13 +181,10 @@ class _EntradasWidgetState extends State<EntradasWidget> {
                                   children: [
                                     Text(
                                       '15 de Junio, 2023',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                        fontFamily: 'Inter',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        letterSpacing: 0.0,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Text(
@@ -250,24 +238,18 @@ class _EntradasWidgetState extends State<EntradasWidget> {
                                   children: [
                                     Text(
                                       '12 de Junio, 2023',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                        fontFamily: 'Inter',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        letterSpacing: 0.0,
+                                      style: TextStyle(   //Cambio de letra
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Text(
                                       'Descripcion',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodySmall
-                                          .override(
-                                        fontFamily: 'Inter',
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryText,
-                                        letterSpacing: 0.0,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ].divide(SizedBox(height: 4)),
@@ -310,13 +292,10 @@ class _EntradasWidgetState extends State<EntradasWidget> {
                                   children: [
                                     Text(
                                       '8 de Junio, 2023',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                        fontFamily: 'Inter',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        letterSpacing: 0.0,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Text(
@@ -370,13 +349,10 @@ class _EntradasWidgetState extends State<EntradasWidget> {
                                   children: [
                                     Text(
                                       '5 de Junio, 2023',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                        fontFamily: 'Inter',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        letterSpacing: 0.0,
+                                      style: TextStyle(  //Cambio de letra
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Text(
@@ -430,13 +406,10 @@ class _EntradasWidgetState extends State<EntradasWidget> {
                                   children: [
                                     Text(
                                       '1 de Junio, 2023',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                        fontFamily: 'Inter',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        letterSpacing: 0.0,
+                                      style: TextStyle(   //Cambio de letra
+                                        color: Colors.white,
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Text(
