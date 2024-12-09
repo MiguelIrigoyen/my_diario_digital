@@ -63,9 +63,7 @@ class _ConfiguracionScreenState extends State<ConfiguracionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Configuración"),
-      ),
+      appBar: AppBar(title: Text("Configuración")),
       body: Column(
         children: [
           ElevatedButton(
