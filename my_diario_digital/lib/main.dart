@@ -108,12 +108,12 @@ class PantallaPrincipal extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/ecSeguridad');
+            Navigator.pushNamed(context, '/entradas');
           },
           style: ElevatedButton.styleFrom(
             foregroundColor: Colors.white,
             backgroundColor: Colors.blue,
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -121,7 +121,7 @@ class PantallaPrincipal extends StatelessWidget {
             elevation: 5,
           ),
           child: Text(
-            'Exportación y Copia de Seguridad',
+            'Agregar entradada',
             style: TextStyle(fontSize: 16),
           ),
         ),
@@ -148,7 +148,7 @@ class PantallaPrincipal extends StatelessWidget {
                 },
               ),
               _buildBottomNavItem(
-                icon: Icons.add_box_outlined,
+                icon: Icons.auto_awesome_mosaic_rounded,
                 onTap: () {
                   Navigator.pushNamed(context, '/entradas');
                 },
