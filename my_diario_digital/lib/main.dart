@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', // Ruta inicial
       routes: {
         '/': (context) => PantallaPrincipal(), // Pantalla principal
-        '/fEtiquetas': (context) => FavoritosApp(),
+        '/fEtiquetas': (context) => FavoritosScreen(),
         '/entradas': (context) => CrearEntrada(),
         '/ecSeguridad': (context) => ExportarCopiaSeguridad(),
         '/Inicio': (context) => PantallaPrincipal(),

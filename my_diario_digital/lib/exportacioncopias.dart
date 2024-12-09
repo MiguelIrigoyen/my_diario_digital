@@ -184,6 +184,7 @@ class ExportarCopiaSeguridad extends StatelessWidget {
     return true;
   }
 }
+//widgets para los appbar y bottom appbar
 Widget _buildBottomNavItem({
   required IconData icon,
   required VoidCallback onTap,
