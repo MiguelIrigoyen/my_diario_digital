@@ -8,8 +8,6 @@ import 'detallesentrada.dart';
 import 'favoritosetiquetas.dart';
 import 'mapa.dart';
 import 'exportacioncopias.dart';
-import 'pagina1.dart'; // Import de la primera nueva pantalla
-import 'pagina2.dart'; // Import de la segunda nueva pantalla
 
 void main() {
   runApp(MyApp());
@@ -27,11 +25,9 @@ class MyApp extends StatelessWidget {
         '/entradas': (context) => CrearEntrada(),
         '/ecSeguridad': (context) => ExportarCopiaSeguridad(),
         '/Inicio': (context) => PantallaPrincipal(),
-        '/Calendario': (context) => Calendario(),
-        '/Configuracion': (context) => Configuracion(),
+        '/Calendario': (context) => Calendario(), // Ruta para Calendario
+        '/Configuracion': (context) => Configuracion(), // Ruta para Configuración
         '/Mapa': (context) => GoogleMapPage(),
-        '/Pagina1': (context) => Pagina1(), // Ruta para la nueva pantalla 1
-        '/Pagina2': (context) => Pagina2(), // Ruta para la nueva pantalla 2
       },
     );
   }
