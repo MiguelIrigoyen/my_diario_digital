@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'photo_screen.dart';
+import 'video_screan.dart';
 class CrearEntrada extends StatefulWidget {
   @override
   _CrearEntradaState createState() => _CrearEntradaState();
@@ -66,13 +67,23 @@ class _CrearEntradaState extends State<CrearEntrada> {
               ElevatedButton.icon(
                 icon: Icon(Icons.photo),
                 label: Text('Agregar Foto'),
-                onPressed: agregarFoto,
+                onPressed:(){
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => PhotoScreen()),
+                  );
+                }
               ),
               SizedBox(height: 50),
               ElevatedButton.icon(
                 icon: Icon(Icons.videocam),
                 label: Text('Agregar Video'),
-                onPressed: agregarVideo,
+                  onPressed:(){
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => VideoScrean()),
+                    );
+                  }
               ),
               SizedBox(height: 50),
               ElevatedButton.icon(
