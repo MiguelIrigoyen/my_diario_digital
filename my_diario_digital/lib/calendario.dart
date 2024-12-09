@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart'; //Libreria de table_calendar
+import 'package:table_calendar/table_calendar.dart'; // Librería de table_calendar
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -35,7 +35,7 @@ class _CalendarioScreenState extends State<CalendarioScreen> {
       print("Error: $e");
     }
   }
-  
+
   @override
   void initState() {
     super.initState();
@@ -46,9 +46,7 @@ class _CalendarioScreenState extends State<CalendarioScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Calendario"),
-      ),
+      appBar: AppBar(title: Text("Calendario")),
       body: Column(
         children: [
           TableCalendar(
@@ -83,7 +81,12 @@ class _CalendarioScreenState extends State<CalendarioScreen> {
                       final entrada = _entradas[index];
                       return ListTile(
                         title: Text(entrada["descripcion"]),
-                        subtitle: Text("Multimedia: ${entrada["multimedia"].length} elementos"),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: entrada["multimedia"].map<Widget>((media) {
+                            return Text("${media["tipo"]}: ${media["url"]}");
+                          }).toList(),
+                        ),
                       );
                     },
                   ),
