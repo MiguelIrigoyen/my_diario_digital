@@ -29,7 +29,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   @override
   void dispose() {
-    _model.dispose();
+    _model.dispose();F
     super.dispose();
   }
 
@@ -48,11 +48,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             alignment: AlignmentDirectional(0, 0),
             child: Text(
               'Crear entrada',
-              style: FlutterFlowTheme.of(context).headlineMedium.override(
+              style: TextStyle(
                 fontFamily: 'Inter Tight',
-                color: Colors.white,
                 fontSize: 22,
-                letterSpacing: 0.0,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -84,16 +84,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       print('tomaFoto pressed ...');
                     },
                     text: '',
-                    options: FFButtonOptions(
+                    options: FFButtonOptions(fl
                       width: 40,
                       height: 40,
                       padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                       iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                       color: Color(0xFFEF3939),
-                      textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                      textStyle: TextStyle(  // cambio de letra
                         fontFamily: 'Inter Tight',
                         color: Colors.white,
-                        letterSpacing: 0.0,
+                        fontWeight: FontWeight.bold,
                       ),
                       elevation: 0,
                       borderRadius: BorderRadius.circular(24),
@@ -111,9 +111,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
                   child: Text(
                     'Escribe una nota aquí',
-                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                    style: TextStyle(  // Cambio de letra
                       fontFamily: 'Inter',
-                      letterSpacing: 0.0,
+                      fontSize: 16,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -153,10 +154,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                     iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                     color: Color(0xFF125AD2),
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                    textStyle: TextStyle(  //Cambio de letra
                       fontFamily: 'Inter Tight',
                       color: Colors.white,
-                      letterSpacing: 0.0,
+                      fontWeight: FontWeight.bold,
                     ),
                     elevation: 0,
                     borderRadius: BorderRadius.circular(8),
