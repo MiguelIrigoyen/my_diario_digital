@@ -3,11 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'calendario.dart';
 import 'configuracion.dart';
 import 'detallesentrada.dart';
-//import 'etiquetas.dart';
-//import 'informacionyayuda.dart';
+// import 'etiquetas.dart';
+// import 'informacionyayuda.dart';
 import 'favoritosetiquetas.dart';
 import 'mapa.dart';
 import 'exportacioncopias.dart';
+import 'pagina1.dart'; // Import de la primera nueva pantalla
+import 'pagina2.dart'; // Import de la segunda nueva pantalla
+
 void main() {
   runApp(MyApp());
 }
@@ -20,17 +23,20 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', // Ruta inicial
       routes: {
         '/': (context) => PantallaPrincipal(), // Pantalla principal
-        '/fEtiquetas':  (context) => FavoritosApp(),
-        '/entradas':  (context) =>CrearEntrada() ,
+        '/fEtiquetas': (context) => FavoritosApp(),
+        '/entradas': (context) => CrearEntrada(),
         '/ecSeguridad': (context) => ExportarCopiaSeguridad(),
         '/Inicio': (context) => PantallaPrincipal(),
         '/Calendario': (context) => Calendario(),
         '/Configuracion': (context) => Configuracion(),
-        '/Mapa':  (context) =>GoogleMapPage(),
+        '/Mapa': (context) => GoogleMapPage(),
+        '/Pagina1': (context) => Pagina1(), // Ruta para la nueva pantalla 1
+        '/Pagina2': (context) => Pagina2(), // Ruta para la nueva pantalla 2
       },
     );
   }
 }
+
 class PantallaPrincipal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -109,7 +115,8 @@ class PantallaPrincipal extends StatelessWidget {
             Navigator.pushNamed(context, '/ecSeguridad');
           },
           style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white, backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.blue,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -189,7 +196,6 @@ class PantallaPrincipal extends StatelessWidget {
     );
   }
 }
-
 
 class Calendario extends StatelessWidget {
   @override
