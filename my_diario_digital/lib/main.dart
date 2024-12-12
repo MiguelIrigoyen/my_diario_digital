@@ -8,7 +8,7 @@ import 'detallesentrada.dart';
 import 'favoritosetiquetas.dart';
 import 'mapa.dart';
 import 'exportacioncopias.dart';
-
+//import 'basededatos.dart';
 void main() {
   runApp(MyApp());
 }
@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
 }
 
 class PantallaPrincipal extends StatelessWidget {
+  //final fbHelper=BaseDeDatos();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,6 +126,21 @@ class PantallaPrincipal extends StatelessWidget {
             style: TextStyle(fontSize: 16),
           ),
         ),
+       /* child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(onPressed:(){
+              _insert();
+            },
+              child: const Text('Insertar Datos'),
+            ),
+            ElevatedButton(onPressed:(){
+              _mostrar();
+            },
+              child: const Text('Mostrar'),
+            ),
+          ],
+        ),*/
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.blue,
@@ -165,7 +181,12 @@ class PantallaPrincipal extends StatelessWidget {
       ),
     );
   }
-
+  /*void _insert() async{
+    await fbHelper.addData();
+  }
+  void _mostrar() async{
+    await fbHelper.mostrar();
+  }*/
   Widget _buildDrawerItem({
     required IconData icon,
     required String text,
