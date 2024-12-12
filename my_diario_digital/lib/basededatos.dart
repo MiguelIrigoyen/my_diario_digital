@@ -1,40 +1,44 @@
-import "package:sqflite/sqflite.dart";
-import "package:path/path.dart";
-const path=null;
-class BaseDeDatos {
-  Future<Database> _openDataBase() async{
-    final databasepath =await  getDatabasesPath();
-     path=join(databasepath,'mydatabase.db');
-    return openDataBase(path, onCreate: (db,version) async{
-        await db.execute(
-              'CREATE TABLE mitabla (id integer primary key,name TEXT)',);
-    },version: 1
-    );
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+class DatabaseHelper {
+  static final DatabaseHelper instance = DatabaseHelper._init();
+  static Database? _database;
+
+  DatabaseHelper._init();
+
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    _database = await _initDB('media.db');
+    return _database!;
   }
-Future<void> addData() async{
-    final database =await _openDataBase();
-    await database.insert(
-      'mitabla',
-      {'name':'juan'},
-      conflictAlgorithm:ConflictAlgorithm.replace,
-    );
-    print('agregado');
-    await database.close();
-}
-  Future<void> mostrar() async{
-    final database =await _openDataBase();
-    final data=await database.query('mitabla');
-    print(data);
-    await database.close();
+
+  Future<Database> _initDB(String filePath) async {
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, filePath);
+    return await openDatabase(path, version: 1, onCreate: _onCreate);
+  }
+
+  Future _onCreate(Database db, int version) async {
+    await db.execute('''
+      CREATE TABLE media_files (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        file_path TEXT NOT NULL,
+        type TEXT NOT NULL,
+        category TEXT,
+        note TEXT
+      )
+    ''');
+  }
+
+  Future<void> insertMediaFile(Map<String, dynamic> mediaFile) async {
+    final db = await database;
+    await db.insert('media_files', mediaFile, conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<List<Map<String, dynamic>>> getAllMediaFiles() async {
+    final db = await database;
+    return await db.query('media_files');
   }
 }
-
-
-
-
-
-
-
-
-
 

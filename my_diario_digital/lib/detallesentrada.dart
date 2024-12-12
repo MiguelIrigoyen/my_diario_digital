@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_diario_digital/audio_screen.dart';
 import 'photo_screen.dart';
-import 'video_screan.dart';
+import 'video_screen.dart';
 import 'mapa.dart';
 class CrearEntrada extends StatefulWidget {
   @override
@@ -111,14 +111,7 @@ class _CrearEntradaState extends State<CrearEntrada> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextField(
-                controller: _categoriaController,
-                decoration: InputDecoration(labelText: 'Categoría'),
-              ),
-              TextField(
-                controller: _notaTextoController,
-                decoration: InputDecoration(labelText: 'Nota de texto'),
-              ),
+
               SizedBox(height: 17),
               ElevatedButton.icon(
                 icon: Icon(Icons.camera),
@@ -137,7 +130,7 @@ class _CrearEntradaState extends State<CrearEntrada> {
                   onPressed:(){
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => VideoScrean()),
+                      MaterialPageRoute(builder: (context) => VideoScreen()),
                     );
                   }
               ),

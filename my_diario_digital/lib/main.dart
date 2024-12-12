@@ -8,8 +8,16 @@ import 'detallesentrada.dart';
 import 'favoritosetiquetas.dart';
 import 'mapa.dart';
 import 'exportacioncopias.dart';
-//import 'basededatos.dart';
-void main() {
+import 'visualizarEntrada.dart';
+import 'basededatos.dart';
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+
+  await DatabaseHelper.instance.database;
+
   runApp(MyApp());
 }
 
@@ -28,6 +36,8 @@ class MyApp extends StatelessWidget {
         '/Calendario': (context) => Calendario(), // Ruta para Calendario
         '/Configuracion': (context) => Configuracion(), // Ruta para Configuración
         '/Mapa': (context) => GoogleMapPage(),
+        '/visualizarEntrada': (context) => PhotoGridScreen(),
+
       },
     );
   }
@@ -161,6 +171,12 @@ class PantallaPrincipal extends StatelessWidget {
                 icon: Icons.archive_rounded,
                 onTap: () {
                   Navigator.pushNamed(context, '/ecSeguridad');
+                },
+              ),
+              _buildBottomNavItem(
+                icon: Icons.image,
+                onTap: () {
+                  Navigator.pushNamed(context, '/visualizarEntrada');
                 },
               ),
               _buildBottomNavItem(

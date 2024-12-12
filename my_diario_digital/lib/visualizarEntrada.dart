@@ -1,251 +1,93 @@
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+import 'basededatos.dart'; // Importa tu clase de base de datos
+import 'pantallaFoto.dart'; // Importa la pantalla de foto en pantalla completa
 
-import 'visualizarentrada_model.dart';
-export 'visualizarentrada_model.dart';
-
-class VisualizarentradaWidget extends StatefulWidget {
-  /// A page to visualize each entry. the top bar container has to the left a
-  /// home button, and in the middle a large text with the title of the entry.
-  /// below that a large square with the photo of the entry, below that the text
-  /// note, below that the vice memo, and below that the map
-  const VisualizarentradaWidget({super.key});
-
+class PhotoGridScreen extends StatefulWidget {
   @override
-  State<VisualizarentradaWidget> createState() =>
-      _VisualizarentradaWidgetState();
+  _PhotoGridScreenState createState() => _PhotoGridScreenState();
 }
 
-class _VisualizarentradaWidgetState extends State<VisualizarentradaWidget> {
-  late VisualizarentradaModel _model;
-
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+class _PhotoGridScreenState extends State<PhotoGridScreen> {
+  List<Map<String, dynamic>> _photos = []; // Lista de fotos desde la base de datos
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => VisualizarentradaModel());
+    _loadPhotos(); // Cargar fotos al iniciar
   }
 
-  @override
-  void dispose() {
-    _model.dispose();
-
-    super.dispose();
+  // Método para cargar las fotos desde la base de datos
+  Future<void> _loadPhotos() async {
+    final photos = await DatabaseHelper.instance.getAllMediaFiles();
+    setState(() {
+      _photos = photos;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        body: SafeArea(
-          top: true,
-          child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Material(
-                    color: Colors.transparent,
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Container(
-                      width: MediaQuery.sizeOf(context).width,
-                      height: 300,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.network(
-                          'https://images.unsplash.com/photo-1606705176553-5e7fa9cc5467?w=500&h=500',
-                          width: MediaQuery.sizeOf(context).width,
-                          height: MediaQuery.sizeOf(context).height * 1,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Material(
-                    color: Colors.transparent,
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Container(
-                      width: MediaQuery.sizeOf(context).width,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Nota:',
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyLarge
-                                  .override(
-                                fontFamily: 'Inter',
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryText,
-                                letterSpacing: 0.0,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Text(
-                              'Hermoso día en el parque, disfrutando del sol y la naturaleza. El clima estaba perfecto para una caminata.',
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                fontFamily: 'Inter',
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryText,
-                                letterSpacing: 0.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Material(
-                    color: Colors.transparent,
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Container(
-                      width: MediaQuery.sizeOf(context).width,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 16),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Icon(
-                                  Icons.play_arrow,
-                                  color:
-                                  FlutterFlowTheme.of(context).primaryText,
-                                  size: 24,
-                                ),
-                                Text(
-                                  'Mensaje de voz',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                    fontFamily: 'Inter',
-                                    letterSpacing: 0.0,
-                                  ),
-                                ),
-                              ].divide(SizedBox(width: 12)),
-                            ),
-                            Text(
-                              '0:45',
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                fontFamily: 'Inter',
-                                color: FlutterFlowTheme.of(context)
-                                    .secondaryText,
-                                letterSpacing: 0.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Material(
-                    color: Colors.transparent,
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Container(
-                      width: MediaQuery.sizeOf(context).width,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Image.network(
-                              'https://images.unsplash.com/photo-1502920514313-52581002a659?w=500&h=500',
-                              width: MediaQuery.sizeOf(context).width,
-                              height: MediaQuery.sizeOf(context).height * 1,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.sizeOf(context).width,
-                            height: MediaQuery.sizeOf(context).height * 1,
-                            decoration: BoxDecoration(
-                              color: Color(0x33000000),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  16, 16, 16, 16),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.place,
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    size: 32,
-                                  ),
-                                  Text(
-                                    'Ver ubicación',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                      fontFamily: 'Inter',
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      letterSpacing: 0.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ].divide(SizedBox(height: 24)),
-              ),
-            ),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Mis Fotos'),
+      ),
+      body: _photos.isEmpty
+          ? Center(child: Text('No hay fotos guardadas'))
+          : GridView.builder(
+        padding: EdgeInsets.all(8.0),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // Número de columnas
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 8.0,
+          childAspectRatio: 0.75, // Ajusta la altura de los elementos
         ),
+        itemCount: _photos.length,
+        itemBuilder: (context, index) {
+          final photo = _photos[index];
+          return GestureDetector(
+            onTap: () {
+              // Navegar a la pantalla de pantalla completa
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      PhotoFullScreen(imagePath: photo['file_path']),
+                ),
+              );
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: Hero(
+                    tag: photo['file_path'],
+                    child: Image.file(
+                      File(photo['file_path']),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'Categoría: ${photo['category'] ?? 'Sin categoría'}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
+                Text(
+                  'Nota: ${photo['note'] ?? 'Sin nota'}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[700],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
