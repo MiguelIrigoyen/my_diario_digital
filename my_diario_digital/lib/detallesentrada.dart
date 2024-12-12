@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_diario_digital/audio_screen.dart';
 import 'photo_screen.dart';
 import 'video_screan.dart';
 import 'mapa.dart';
@@ -144,7 +145,12 @@ class _CrearEntradaState extends State<CrearEntrada> {
               ElevatedButton.icon(
                 icon: Icon(Icons.mic),
                 label: Text('Grabar Audio'),
-                onPressed: grabarAudio,
+                  onPressed:(){
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => AudioRecorderScreen()),
+                    );
+                  }
               ),
               SizedBox(height: 17),
               ElevatedButton.icon(

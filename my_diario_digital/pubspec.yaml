@@ -32,6 +32,8 @@ dependencies:
   path_provider: ^2.0.14
   flutter:
     sdk: flutter
+  flutter_sound: ^9.2.13
+  audioplayers: ^5.2.1
   google_fonts: ^5.0.0  # Usa la última versión disponible
   provider: ^6.0.5      # Usa la última versión disponible
   syncfusion_flutter_calendar: ^27.2.5
@@ -57,7 +59,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
 
-  google_fonts: ^5.0.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
