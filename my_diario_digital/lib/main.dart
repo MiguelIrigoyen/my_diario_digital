@@ -197,12 +197,7 @@ class PantallaPrincipal extends StatelessWidget {
       ),
     );
   }
-  /*void _insert() async{
-    await fbHelper.addData();
-  }
-  void _mostrar() async{
-    await fbHelper.mostrar();
-  }*/
+
   Widget _buildDrawerItem({
     required IconData icon,
     required String text,
