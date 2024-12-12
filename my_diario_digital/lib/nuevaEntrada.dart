@@ -170,5 +170,34 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       ),
     );
   }
+  Future<void> _saveEntry() async {
+    if (_imageFile == null || _note == null || _currentPosition == null) {
+      // Show error message if any field is missing
+      return;
+    }
+
+    // Guardar imagen
+    final imageBytes = await File(_imageFile!).readAsBytes();
+    final imageBase64 = base64Encode(imageBytes);
+
+    // Guardar coordenadas
+    final latitude = _currentPosition!.latitude;
+    final longitude = _currentPosition!.longitude;
+
+  }
+
+  Future<void> _getCurrentLocation() async {
+    try {
+      final position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      setState(() => _currentPosition = position);
+    } on PlatformException catch (e) {
+      print('Error getting location: $e');
+    }
+  }
+
+  void _getLocation() async {
+    await _getCurrentLocation();
+  }
+
 }
 
