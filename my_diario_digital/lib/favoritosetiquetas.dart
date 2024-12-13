@@ -170,6 +170,12 @@ class _FavoritosScreenState extends State<FavoritosScreen> {
                 },
               ),
               _buildBottomNavItem(
+                icon: Icons.image,
+                onTap: () {
+                  Navigator.pushNamed(context, '/visualizarEntrada');
+                },
+              ),
+              _buildBottomNavItem(
                 icon: Icons.auto_awesome_mosaic_rounded,
                 onTap: () {
                   Navigator.pushNamed(context, '/entradas');

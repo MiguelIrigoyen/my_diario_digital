@@ -1,20 +1,80 @@
 import 'package:flutter/material.dart';
-import 'package:my_diario_digital/urls.dart';
 import 'dart:convert';
+import 'basededatos.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 
-class ExportarCopiaSeguridad extends StatelessWidget {
+class ExportacionYCopia extends StatefulWidget {
+  @override
+  _ExportacionYCopiaState createState() => _ExportacionYCopiaState();
+}
+
+class _ExportacionYCopiaState extends State<ExportacionYCopia> {
+  final DatabaseHelper _dbHelper = DatabaseHelper.instance;
+
+  Future<void> realizarCopiaSeguridad() async {
+    try {
+      await _dbHelper.backupData();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Copia de seguridad realizada con éxito')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al realizar la copia de seguridad: $e')),
+      );
+    }
+  }
+
+  Future<void> restaurarCopiaSeguridad() async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final filePath = '${directory.path}/media_backup.json';
+
+      if (await File(filePath).exists()) {
+        await _dbHelper.restoreData(filePath);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Datos restaurados con éxito')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Archivo de copia de seguridad no encontrado')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al restaurar los datos: $e')),
+      );
+    }
+  }
+
+  Future<void> exportarDatos() async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final exportPath = '${directory.path}/exported_data.json';
+
+      await _dbHelper.exportData(exportPath);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Datos exportados a: $exportPath')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al exportar los datos: $e')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blue,
-          title:Center(
-            child: Text('Exportacion y copia de seguridad',
-              style: TextStyle(color: Colors.white),
-            ),
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title:Center(
+          child: Text('Exportacion y copia de seguridad',
+            style: TextStyle(color: Colors.white),
           ),
         ),
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -69,35 +129,21 @@ class ExportarCopiaSeguridad extends StatelessWidget {
           ],
         ),
       ),
-
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 180),
             ElevatedButton(
-              onPressed: () {
-                // Llamar al método exportarEntrada
-                exportarEntrada(1, "PDF");
-              },
-              child: Text('Exportar Entrada'),
-            ),
-            SizedBox(height: 50),
-            ElevatedButton(
-              onPressed: () {
-                // Llamar al método realizarCopiaSeguridad
-                realizarCopiaSeguridad();
-              },
+              onPressed: realizarCopiaSeguridad,
               child: Text('Realizar Copia de Seguridad'),
             ),
-            SizedBox(height: 50),
             ElevatedButton(
-              onPressed: () {
-                // Llamar al método restaurarCopiaSeguridad
-                restaurarCopiaSeguridad('ruta/archivo.backup');
-              },
+              onPressed: restaurarCopiaSeguridad,
               child: Text('Restaurar Copia de Seguridad'),
+            ),
+            ElevatedButton(
+              onPressed: exportarDatos,
+              child: Text('Exportar Datos'),
             ),
           ],
         ),
@@ -124,6 +170,12 @@ class ExportarCopiaSeguridad extends StatelessWidget {
                 },
               ),
               _buildBottomNavItem(
+                icon: Icons.image,
+                onTap: () {
+                  Navigator.pushNamed(context, '/visualizarEntrada');
+                },
+              ),
+              _buildBottomNavItem(
                 icon: Icons.auto_awesome_mosaic_rounded,
                 onTap: () {
                   Navigator.pushNamed(context, '/entradas');
@@ -140,48 +192,6 @@ class ExportarCopiaSeguridad extends StatelessWidget {
         ),
       ),
     );
-  }
-
-
-  Future<void> exportarEntrada(int idEntrada, String formato) async {
-    final url = Uri.parse(urls.url);
-
-    try {
-      final response = await http.get(
-        url.replace(queryParameters: {
-          'idEntrada': idEntrada.toString(),
-          'formato': formato,
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        print('Entrada exportada correctamente: ${response.body}');
-        // Aquí puedes manejar el archivo descargado, si aplica.
-      } else {
-        print('Error al exportar la entrada: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error en la solicitud GET: $e');
-    }
-  }
-
-
-  Future<bool> realizarCopiaSeguridad() async {
-    // Simula la lógica para realizar una copia de seguridad
-    print('Realizando copia de seguridad...');
-    // Aquí se llamaría a una API con un método POST.
-    await Future.delayed(Duration(seconds: 1)); // Simulación de un proceso
-    print('Copia de seguridad realizada con éxito.');
-    return true;
-  }
-
-  Future<bool> restaurarCopiaSeguridad(String archivo) async {
-    // Simula la lógica para restaurar una copia de seguridad desde un archivo
-    print('Restaurando copia de seguridad desde el archivo: $archivo');
-    // Aquí se llamaría a una API con un método POST.
-    await Future.delayed(Duration(seconds: 2)); // Simulación de un proceso
-    print('Copia de seguridad restaurada con éxito.');
-    return true;
   }
 }
 //widgets para los appbar y bottom appbar

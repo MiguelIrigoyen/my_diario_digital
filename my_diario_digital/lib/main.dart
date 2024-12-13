@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => PantallaPrincipal(), // Pantalla principal
         '/fEtiquetas': (context) => FavoritosScreen(),
         '/entradas': (context) => CrearEntrada(),
-        '/ecSeguridad': (context) => ExportarCopiaSeguridad(),
+        '/ecSeguridad': (context) => ExportacionYCopia(),
         '/Inicio': (context) => PantallaPrincipal(),
         '/Calendario': (context) => Calendario(), // Ruta para Calendario
         '/Configuracion': (context) => Configuracion(), // Ruta para Configuración
