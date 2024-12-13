@@ -42,6 +42,7 @@ class DatabaseHelper {
     final db = await database;
     return await db.query('media_files');
   }
+  //Exportacion y copia de seguridad
   Future<void> exportData(String exportPath) async {
     final db = await database;
     final mediaFiles = await db.query('media_files');
