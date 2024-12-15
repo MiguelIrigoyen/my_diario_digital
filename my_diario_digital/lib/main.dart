@@ -171,15 +171,41 @@ class PantallaPrincipal extends StatelessWidget {
     required String text,
     required VoidCallback onTap,
   }) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.blue),
-      title: Text(
-        text,
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-      ),
-      onTap: onTap,
+    return StatefulBuilder(
+      builder: (context, setState) {
+        bool isHovered = false;
+
+        return MouseRegion(
+          onEnter: (_) => setState(() => isHovered = true),
+          onExit: (_) => setState(() => isHovered = false),
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            decoration: BoxDecoration(
+              color: isHovered ? Colors.blue.shade50 : Colors.transparent,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: ListTile(
+              leading: Icon(
+                icon,
+                color: isHovered ? Colors.blue : Colors.black,
+              ),
+              title: Text(
+                text,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: isHovered ? Colors.blue : Colors.black,
+                ),
+              ),
+              onTap: onTap,
+            ),
+          ),
+        );
+      },
     );
   }
+
 
   Widget _buildBottomNavItem({
     required IconData icon,
