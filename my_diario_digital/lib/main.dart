@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         '/entradas': (context) => CrearEntrada(),
         '/ecSeguridad': (context) => ExportacionYCopia(),
         '/Inicio': (context) => PantallaPrincipal(),
-        '/Calendario': (context) => Calendario(), // Ruta para Calendario
+        '/Calendario': (context) => CalendarioScreen(), // Ruta para Calendario
         '/Configuracion': (context) => Configuracion(), // Ruta para Configuración
         '/Mapa': (context) => GoogleMapPage(),
         '/visualizarEntrada': (context) => PhotoGridScreen(),
